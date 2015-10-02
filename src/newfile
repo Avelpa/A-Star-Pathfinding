@@ -1,0 +1,22 @@
+start
+end
+LEFT_BOUNDARY
+RIGHT_BOUNDARY
+TOP_BOUNDARY
+BOTTOM_BOUNDARY
+
+start.moveTo(getNode(start, end));
+
+getNode(start, end){
+
+    if (!withinBounds(start){
+        return -1;
+    }
+
+}
+
+withinBounds(pos)
+{
+    return if in the boundary
+}
+
