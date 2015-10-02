@@ -4,6 +4,24 @@ LEFT_BOUNDARY
 RIGHT_BOUNDARY
 TOP_BOUNDARY
 BOTTOM_BOUNDARY
+NODES_LIST
+
+public Enum...whatever
+{
+    FREE = 0;
+    SOLID = 1;
+}
+
+class Node{
+
+    H = heuristic
+    setH(int newH)
+    {
+    }
+
+}
+
+CREATE_NODES(); --> NODES_LIST
 
 start.moveTo(getNode(start, end));
 
@@ -12,6 +30,8 @@ getNode(start, end){
     if (!withinBounds(start){
         return -1;
     }
+    //left
+    LeftF = LeftNode.getF();
 
 }
 
@@ -20,3 +40,15 @@ withinBounds(pos)
     return if in the boundary
 }
 
+updateNodes()
+{
+    for (Node node: NODES_LIST)
+    {
+        if (node.type != SOLID)
+        {
+            node.setH(calculateH(node, end));
+        }
+    }
+}
+
+calculateH(
