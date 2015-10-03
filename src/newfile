@@ -15,20 +15,28 @@ public Enum...whatever
 class Node{
 
     H = heuristic
+    F = MAX_VALUE; //or 0, whatever
+
     setH(int newH)
     {
+    }
+
+    getF()
+    {
+        return F;
     }
 
 }
 
 CREATE_NODES(); --> NODES_LIST
 
-start.moveTo(getNode(start, end));
+updateNodeHeuristics();
+start.moveTo(getNextNode(start, end));
 
-getNode(start, end){
+getNextNode(node, end){
 
-    if (!withinBounds(start){
-        return -1;
+    if (!withinBounds(node){
+        return null;
     }
     //left
     LeftF = LeftNode.getF();
@@ -40,7 +48,7 @@ withinBounds(pos)
     return if in the boundary
 }
 
-updateNodes()
+updateNodeHeuristics()
 {
     for (Node node: NODES_LIST)
     {
@@ -51,4 +59,7 @@ updateNodes()
     }
 }
 
-calculateH(
+calculateH(node, end){
+    super duper complicated mathematics
+    return heuristic
+}
