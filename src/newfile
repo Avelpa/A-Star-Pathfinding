@@ -6,16 +6,18 @@ TOP_BOUNDARY
 BOTTOM_BOUNDARY
 NODES_LIST
 
-public Enum...whatever
+public Enum State
 {
-    FREE = 0;
-    SOLID = 1;
+    FREE,
+    SOLID
 }
 
 class Node{
 
     H = heuristic
     F = MAX_VALUE; //or 0, whatever
+
+    Node parent;
 
     setH(int newH)
     {
@@ -26,6 +28,10 @@ class Node{
         return F;
     }
 
+    addToF(int increment)
+    {
+        F += increment;
+    }
 }
 
 CREATE_NODES(); --> NODES_LIST
@@ -40,6 +46,14 @@ getNextNode(node, end){
     }
     //left
     LeftF = LeftNode.getF();
+    //right
+    RightF = RightNode.getF();
+    //top
+    TopF = TopNode.getF();
+    //bottom
+    BottomF = BottomNode.getF();
+
+    
 
 }
 
@@ -52,7 +66,7 @@ updateNodeHeuristics()
 {
     for (Node node: NODES_LIST)
     {
-        if (node.type != SOLID)
+        if (node.state != State.SOLID)
         {
             node.setH(calculateH(node, end));
         }
@@ -62,4 +76,9 @@ updateNodeHeuristics()
 calculateH(node, end){
     super duper complicated mathematics
     return heuristic
+}
+
+getMax(Integer... ints)
+{
+    return max...
 }
