@@ -44,14 +44,43 @@ getNextNode(node, end){
     if (!withinBounds(node){
         return null;
     }
+
+    /////////////STORE THESE SOMEWHERE... loop through...---> if (sideNode == end){ return sideNode)
     //left
-    LeftF = LeftNode.getF();
+    LeftF = MAX_INTEGER;
+    if (!withinBounds(LeftNode){
+        LeftF = LeftNode.getF();
+    }
     //right
-    RightF = RightNode.getF();
+    RightF = MAX_INTEGER;
+    if (!withinBounds(RightNode){
+        RightF = RightNode.getF();
+    }
     //top
-    TopF = TopNode.getF();
+    TopF = MAX_INTEGER;
+    if (!withinBounds(TopNode){
+        TopF = TopNode.getF();
+    }
     //bottom
-    BottomF = BottomNode.getF();
+    BottomF = MAX_INTEGER;
+    if (!withinBounds(BottomNode){
+        BottomF = BottomNode.getF();
+    }
+
+    for (Node sideNode: adjascentNodes){
+        newF = this.getF() + sideNode.H();
+        if (newF < sideNode.getF())
+            sideNode.parent = this;
+            sideNode.setF(newF);
+        }
+    }
+    this.state = closed;
+
+    
+    
+    // find min of LeftNode, RightNode, TopNode, BottomNode...
+    get the nodes for each thing, in descending order of F value
+    return minimum of the new side nodes by F value.
 
     
 
