@@ -69,7 +69,7 @@ getNextNode(node, end){
 
     for (Node sideNode: adjascentNodes){
         newF = this.getF() + sideNode.H();
-        if (newF < sideNode.getF())
+        if (newF < sideNode.getF()){
             sideNode.parent = this;
             sideNode.setF(newF);
         }

@@ -19,28 +19,53 @@ public class Main {
     
     // 0 = empty, 1 = wall
     int[][] map = {
-        {0}
+        {0,0,0},
+        {0,1,0},
+        {0,0,0},
     };
+    GridNode[] nodes = new GridNode[map.length*map[0].length];
     
     int[] start = {0, 0};
     int[] end = {0, 0};
+    
+    public void populateNodes()
+    {
+        for (int y = 0; y < map.length; y ++)
+        {
+            for (int x = 0; x < map[y].length; x ++)
+            {
+                int mapNode = map[y][x];
+                nodes[y*map[y].length + x] = new GridNode(GridNode.State.values()[mapNode]);
+            }
+        }
+    }
+    
+    public void printNodes()
+    {
+        for (GridNode node: nodes)
+        {
+            System.out.println(node);
+        }
+    }
+    
+    public void run()
+    {
+        populateNodes();
+        printNodes();
+    }
     
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
-        
-        
+        Main main = new Main();
+        main.run();
     }
     
     
     /**
      * A method that determines the largest of a set of numbers
-     * @param vals
-     * The array of numbers to be compared
-     * <dt><b>Precondition:</b><dd>
-     * The array length must be greater than 0
+     * @param vals the array of numbers to be compared. array length should be > 0
      * @return
      * the largest number in the passed in array
      */

@@ -8,6 +8,18 @@
  * @author kobed6328
  */
 public class GridNode {
+   
+    public enum State{
+     
+        EMPTY,
+        SOLID
+    }
+    private State state;
+    
+    public GridNode(State state)
+    {
+        this.state = state;
+    }
     
     int H;
     int F = Integer.MAX_VALUE; //or 0, whatever
@@ -27,6 +39,11 @@ public class GridNode {
     public void addToF(int increment)
     {
         F += increment;
+    }
+    
+    @Override
+    public String toString(){
+        return "Node - State:" + state.name() + " H:" + H + " F:" + F;
     }
     
 }
