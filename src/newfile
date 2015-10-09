@@ -45,6 +45,11 @@ getNextNode(node, end){
         return null;
     }
 
+    if (node == end) // because I added this I need to revisit this method....
+    {
+        return node;
+    }
+
     /////////////STORE THESE SOMEWHERE... loop through...---> if (sideNode == end){ return sideNode)
     //left
     LeftF = MAX_INTEGER;

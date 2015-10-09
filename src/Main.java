@@ -7,27 +7,20 @@
  * 
  * @author kobed6328
  */
-
-class Node{
-    public Node(int H)
-    {
-    }
-}
-
 public class Main {
-
     
     // 0 = empty, 1 = wall
     int[][] map = {
-        {0,0,0},
-        {0,1,0},
-        {0,0,0},
+        {0}
     };
     GridNode[] nodes = new GridNode[map.length*map[0].length];
     
-    int[] start = {0, 0};
-    int[] end = {0, 0};
+    int[] start = {0, 0}; // (x, y)
+    int[] end = {0, 0}; // (x, y)
     
+    /**
+     * Adds nodes to the nodes array, using the "map" 2D array
+     */
     public void populateNodes()
     {
         for (int y = 0; y < map.length; y ++)
@@ -35,9 +28,32 @@ public class Main {
             for (int x = 0; x < map[y].length; x ++)
             {
                 int mapNode = map[y][x];
-                nodes[y*map[y].length + x] = new GridNode(GridNode.State.values()[mapNode]);
+                nodes[y*map[y].length + x] = new GridNode(GridNode.State.values()[mapNode], x, y);
             }
         }
+    }
+    
+    public void updateNodes()
+    {
+        for (GridNode node: nodes)
+        {
+            node.setH(calculateH(node));
+        }
+    }
+    
+    /**
+     * Calculates the heuristic value for a particular node using the manhattan approach
+     * @param node the node to be calculated
+     * @return the heuristic value
+     */
+    public int calculateH(GridNode node)
+    {
+        int horX = Math.abs(end[0] - node.getGridX());
+        int horY = Math.abs(end[1] - node.getGridY());
+        
+        int heuristic = horX + horY;
+        
+        return heuristic;
     }
     
     public void printNodes()
@@ -48,10 +64,24 @@ public class Main {
         }
     }
     
+    public GridNode getNextNode(GridNode node)
+    {
+        if (node.getH() == 0)
+        {
+            return node;
+        }
+        return null;
+    }
+    
     public void run()
     {
         populateNodes();
+        updateNodes();
         printNodes();
+        
+        GridNode startNode = nodes[start[1]*map[start[1]].length + start[0]];
+        GridNode nextNode = getNextNode(startNode);
+        System.out.println(nextNode);
     }
     
     /**
