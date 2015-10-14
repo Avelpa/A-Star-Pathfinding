@@ -13,9 +13,9 @@ public class Main {
     int[][] map = {
         {0}
     };
-    GridNode[] nodes = new GridNode[map.length*map[0].length];
+    GridNode[][] nodes = new GridNode[map.length][map[0].length];
     
-    int[] start = {0, 0}; // (x, y)
+    int[] start = {1, 0}; // (x, y)
     int[] end = {0, 0}; // (x, y)
     
     /**
@@ -28,16 +28,19 @@ public class Main {
             for (int x = 0; x < map[y].length; x ++)
             {
                 int mapNode = map[y][x];
-                nodes[y*map[y].length + x] = new GridNode(GridNode.State.values()[mapNode], x, y);
+                nodes[y][x] = new GridNode(GridNode.State.values()[mapNode], x, y);
             }
         }
     }
     
     public void updateNodes()
     {
-        for (GridNode node: nodes)
+        for (GridNode[] row: nodes)
         {
-            node.setH(calculateH(node));
+            for (GridNode node: row)
+            {
+                node.setH(calculateH(node));
+            }
         }
     }
     
@@ -58,18 +61,63 @@ public class Main {
     
     public void printNodes()
     {
-        for (GridNode node: nodes)
+        for (GridNode[] row: nodes)
         {
-            System.out.println(node);
+            for (GridNode node: row)
+            {
+                System.out.println(node);
+            }
         }
     }
     
     public GridNode getNextNode(GridNode node)
     {
+        int gridX = node.getGridX();
+        int gridY = node.getGridY();
+        
         if (node.getH() == 0)
         {
             return node;
         }
+        
+        //LEFT
+        GridNode leftNode = null;
+        int leftX = gridX - 1;
+        int leftY = gridY;
+        if (withinBounds(leftX, leftY))
+        {
+            leftNode = nodes[leftY][leftX];
+        }
+        //RIGHT
+        GridNode rightNode = null;
+        int rightX = gridX + 1;
+        int rightY = gridY;
+        if (withinBounds(rightX, rightY))
+        {
+            rightNode = nodes[rightY][rightX];
+        }
+        //UP
+        GridNode upNode = null;
+        int upX = gridX;
+        int upY = gridY - 1;
+        if (withinBounds(upX, upY))
+        {
+            upNode = nodes[upY][upX];
+        }
+        //DOWN
+        GridNode downNode = null;
+        int downX = gridX;
+        int downY = gridY + 1;
+        if (withinBounds(downX, downY))
+        {
+            downNode = nodes[downY][downX];
+        }
+        
+        System.out.println(leftNode);
+        System.out.println(rightNode);
+        System.out.println(upNode);
+        System.out.println(downNode);
+        
         return null;
     }
     
@@ -77,11 +125,23 @@ public class Main {
     {
         populateNodes();
         updateNodes();
-        printNodes();
+        printNodes(); // testing only
         
-        GridNode startNode = nodes[start[1]*map[start[1]].length + start[0]];
+        GridNode startNode = nodes[start[1]][start[0]];
         GridNode nextNode = getNextNode(startNode);
-        System.out.println(nextNode);
+        System.out.println("Next node: " + nextNode);
+    }
+    
+    public boolean withinBounds(int gridX, int gridY)
+    {
+        if (gridY >= 0 && gridY < nodes.length)
+        {
+            if (gridX >= 0 && gridX < nodes[0].length)
+            {
+                return true;
+            }
+        }
+        return false;
     }
     
     /**
