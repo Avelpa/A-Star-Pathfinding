@@ -11,11 +11,11 @@ public class Main {
     
     // 0 = empty, 1 = wall
     int[][] map = {
-        {0}
+        {2,0}
     };
     GridNode[][] nodes = new GridNode[map.length][map[0].length];
     
-    int[] start = {1, 0}; // (x, y)
+    int[] start = new int[2]; // (x, y)
     int[] end = {0, 0}; // (x, y)
     
     /**
@@ -28,11 +28,22 @@ public class Main {
             for (int x = 0; x < map[y].length; x ++)
             {
                 int mapNode = map[y][x];
-                nodes[y][x] = new GridNode(GridNode.State.values()[mapNode], x, y);
+                if (mapNode == 2)
+                {
+                    start = new int[]{x, y};
+                    nodes[y][x] = new GridNode(GridNode.State.values()[0], x, y);
+                }
+                else
+                {
+                    nodes[y][x] = new GridNode(GridNode.State.values()[mapNode], x, y);
+                }
             }
         }
     }
     
+    /**
+     * Sets the heuristic value of each node
+     */
     public void updateNodes()
     {
         for (GridNode[] row: nodes)
@@ -113,10 +124,10 @@ public class Main {
             downNode = nodes[downY][downX];
         }
         
-        System.out.println(leftNode);
-        System.out.println(rightNode);
-        System.out.println(upNode);
-        System.out.println(downNode);
+        System.out.println("Left: " + leftNode);
+        System.out.println("Right: " + rightNode);
+        System.out.println("Up: " + upNode);
+        System.out.println("Down: " + downNode);
         
         return null;
     }
@@ -129,7 +140,7 @@ public class Main {
         
         GridNode startNode = nodes[start[1]][start[0]];
         GridNode nextNode = getNextNode(startNode);
-        System.out.println("Next node: " + nextNode);
+        System.out.println("\nNext node: " + nextNode);
     }
     
     public boolean withinBounds(int gridX, int gridY)
