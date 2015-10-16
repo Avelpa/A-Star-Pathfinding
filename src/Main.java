@@ -11,12 +11,12 @@ public class Main {
     
     // 0 = empty, 1 = wall
     int[][] map = {
-        {2,0}
+        {2, 0}
     };
     GridNode[][] nodes = new GridNode[map.length][map[0].length];
     
     int[] start = new int[2]; // (x, y)
-    int[] end = {0, 0}; // (x, y)
+    int[] end = {1, 0}; // (x, y)
     
     /**
      * Adds nodes to the nodes array, using the "map" 2D array
@@ -56,7 +56,7 @@ public class Main {
     }
     
     /**
-     * Calculates the heuristic value for a particular node using the manhattan approach
+     * Calculates the heuristic value for a particular node using the Manhattan approach
      * @param node the node to be calculated
      * @return the heuristic value
      */
@@ -83,6 +83,7 @@ public class Main {
     
     public GridNode getNextNode(GridNode node)
     {
+        node.close();
         int gridX = node.getGridX();
         int gridY = node.getGridY();
         
@@ -124,12 +125,59 @@ public class Main {
             downNode = nodes[downY][downX];
         }
         
+        if (leftNode == null && rightNode == null && upNode == null && downNode == null)
+        {
+            return node;
+        }
+        else 
+        {
+            GridNode nextNodeLeft = null;
+            GridNode nextNodeRight = null;
+            GridNode nextNodeUp = null;
+            GridNode nextNodeDown = null;
+            
+            if (leftNode != null) // left node is actually valid... then modify F and then calculate best node for left
+            {
+                modifyF(leftNode, node);
+                nextNodeLeft = getNextNode(leftNode);
+            }
+            if (rightNode != null)
+            {
+                modifyF(rightNode, node);
+                nextNodeRight = getNextNode(rightNode);
+            }
+            if (upNode != null)
+            {
+                modifyF(upNode, node);
+                nextNodeUp = getNextNode(upNode);
+            }
+            if (downNode != null)
+            {
+                modifyF(downNode, node);
+                nextNodeDown = getNextNode(downNode);
+            }
+            GridNode bestNode = getBestNode(nextNodeUp, nextNodeLeft, nextNodeRight, nextNodeDown);
+            return bestNode;
+        }
+        
+        /*
         System.out.println("Left: " + leftNode);
         System.out.println("Right: " + rightNode);
         System.out.println("Up: " + upNode);
-        System.out.println("Down: " + downNode);
+        System.out.println("Down: " + downNode);*/
         
-        return null;
+        // iterate through them in order of top left to bottom right
+        
+    }
+    
+    public void modifyF(GridNode adjacentNode, GridNode centerNode)
+    {
+        int newF = centerNode.getF() + adjacentNode.getH();
+        if (newF < adjacentNode.getF())
+        {
+            adjacentNode.setParent(centerNode);
+            adjacentNode.setF(newF);
+        }
     }
     
     public void run()
@@ -170,16 +218,22 @@ public class Main {
      * @return
      * the largest number in the passed in array
      */
-    public static int getMax(Integer... vals)
+    public static GridNode getBestNode(GridNode... nodes)
     {
-        int max = Integer.MIN_VALUE;
-        for (Integer i: vals)
+        int min = Integer.MAX_VALUE;
+        GridNode bestNode = null;
+        for (GridNode node: nodes)
         {
-            if (i > max)
+            if (node != null)
             {
-                max = i;
+                int nodeF = node.getF();
+                if (nodeF < min)
+                {
+                    bestNode = node;
+                    min = nodeF;
+                }
             }
         }
-        return max;
+        return bestNode;
     }
 }

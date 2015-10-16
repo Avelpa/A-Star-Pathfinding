@@ -17,6 +17,12 @@ public class GridNode {
         SOLID
     }
     private State state;
+    private boolean closed = false;
+    
+    private int H;
+    private int F = Integer.MAX_VALUE; //or 0, whatever
+
+    private GridNode parent;
     
     public GridNode(State state, int gridX, int gridY)
     {
@@ -25,31 +31,22 @@ public class GridNode {
         this.gridY = gridY;
     }
     
-    private int H;
-    private int F = Integer.MAX_VALUE; //or 0, whatever
-
-    GridNode parent;
-
     public void setH(int newH)
     {
         this.H = newH;
     }
-    
     public int getH()
     {
         return H;
     }
-
     public int getF()
     {
         return F;
     }
-
-    public void addToF(int increment)
+    public void setF(int newF)
     {
-        F += increment;
+        F = newF;
     }
-    
     public int getGridX()
     {
         return gridX;
@@ -57,6 +54,18 @@ public class GridNode {
     public int getGridY()
     {
         return gridY;
+    }
+    public boolean isOpen()
+    {
+        return !closed;
+    }
+    public void close()
+    {
+        closed = true;
+    }
+    public void setParent(GridNode newParent)
+    {
+        parent = newParent;
     }
     
     @Override
