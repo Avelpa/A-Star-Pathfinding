@@ -136,44 +136,45 @@ public class Main {
             GridNode nextNodeUp = null;
             GridNode nextNodeDown = null;
             
-            if (leftNode != null) // left node is actually valid... then modify F and then calculate best node for left
+            if (leftNode != null && leftNode.isOpen()) // left node is actually valid... then modify F and then calculate best node for left
             {
                 modifyF(leftNode, node);
                 nextNodeLeft = getNextNode(leftNode);
             }
-            if (rightNode != null)
+            if (rightNode != null && rightNode.isOpen())
             {
                 modifyF(rightNode, node);
                 nextNodeRight = getNextNode(rightNode);
             }
-            if (upNode != null)
+            if (upNode != null && upNode.isOpen())
             {
                 modifyF(upNode, node);
                 nextNodeUp = getNextNode(upNode);
             }
-            if (downNode != null)
+            if (downNode != null && downNode.isOpen())
             {
                 modifyF(downNode, node);
                 nextNodeDown = getNextNode(downNode);
             }
+            //RETURNING THE WRONG THIGN
+            // iterate through them in order of top left to bottom right
             GridNode bestNode = getBestNode(nextNodeUp, nextNodeLeft, nextNodeRight, nextNodeDown);
             return bestNode;
         }
-        
         /*
         System.out.println("Left: " + leftNode);
         System.out.println("Right: " + rightNode);
         System.out.println("Up: " + upNode);
         System.out.println("Down: " + downNode);*/
         
-        // iterate through them in order of top left to bottom right
+        
         
     }
     
     public void modifyF(GridNode adjacentNode, GridNode centerNode)
     {
         int newF = centerNode.getF() + adjacentNode.getH();
-        if (newF < adjacentNode.getF())
+        if (newF < adjacentNode.getF() || adjacentNode.getParent() == null)
         {
             adjacentNode.setParent(centerNode);
             adjacentNode.setF(newF);
@@ -234,6 +235,7 @@ public class Main {
                 }
             }
         }
+        System.out.println("BEST: " + bestNode);
         return bestNode;
     }
 }

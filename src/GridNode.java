@@ -67,6 +67,10 @@ public class GridNode {
     {
         parent = newParent;
     }
+    public GridNode getParent()
+    {
+        return parent;
+    }
     
     @Override
     public String toString(){
