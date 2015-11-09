@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -125,10 +125,12 @@ public class Main {
             downNode = nodes[downY][downX];
         }
         
-        if (leftNode == null && rightNode == null && upNode == null && downNode == null)
+        // if node is now isolated and still isn't the end...
+        if ((leftNode == null || !leftNode.isOpen()) && (rightNode == null || !rightNode.isOpen()) && (upNode == null || !upNode.isOpen()) && (downNode == null || !downNode.isOpen()))
         {
             return node;
         }
+        
         else 
         {
             GridNode nextNodeLeft = null;
