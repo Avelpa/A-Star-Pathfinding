@@ -11,12 +11,12 @@ public class Main {
     
     // 0 = empty, 1 = wall
     int[][] map = {
-        {2, 0}
+        {0, 2, 0, 0},
     };
     GridNode[][] nodes = new GridNode[map.length][map[0].length];
     
     int[] start = new int[2]; // (x, y)
-    int[] end = {1, 0}; // (x, y)
+    int[] end = {2, 0}; // (x, y)
     
     /**
      * Adds nodes to the nodes array, using the "map" 2D array
@@ -161,7 +161,13 @@ public class Main {
             //RETURNING THE WRONG THIGN
             // iterate through them in order of top left to bottom right
             GridNode bestNode = getBestNode(nextNodeUp, nextNodeLeft, nextNodeRight, nextNodeDown);
-            return bestNode;
+            // it somehow needs to retraverse the parent chain <<<, NTO DONE
+            GridNode parentNode = bestNode;
+            while (parentNode.getParent() != parentNode && parentNode.getParent() != node)
+            {
+                parentNode = parentNode.getParent();
+            }
+            return parentNode;
         }
         /*
         System.out.println("Left: " + leftNode);
@@ -176,7 +182,7 @@ public class Main {
     public void modifyF(GridNode adjacentNode, GridNode centerNode)
     {
         int newF = centerNode.getF() + adjacentNode.getH();
-        if (newF < adjacentNode.getF() || adjacentNode.getParent() == null)
+        if (newF <= adjacentNode.getF() || adjacentNode.getParent() == null)
         {
             adjacentNode.setParent(centerNode);
             adjacentNode.setF(newF);
@@ -229,11 +235,10 @@ public class Main {
         {
             if (node != null)
             {
-                int nodeF = node.getF();
-                if (nodeF < min)
+                if (node.getF() < min)
                 {
                     bestNode = node;
-                    min = nodeF;
+                    min = node.getF();
                 }
             }
         }

@@ -22,7 +22,7 @@ public class GridNode {
     private int H;
     private int F = Integer.MAX_VALUE; //or 0, whatever
 
-    private GridNode parent;
+    private GridNode parent = this;
     
     public GridNode(State state, int gridX, int gridY)
     {
